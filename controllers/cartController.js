@@ -2,8 +2,10 @@ import { Cart, GoodsCart } from "../models/model.js";
 
 class CartController {
   async addItemsToCart(req, res) {
-    const { goodId } = req.body;
-    const goods = await GoodsCart.create({ goodId });
+    const { goodId, cartId } = req.body;
+    const cart = await Cart.findAll();
+    const goods = await GoodsCart.create({ goodId, cartId: cart.id });
+    console.log(cart);
     return res.json(goods);
   }
   async getAllCartItems(req, res) {
