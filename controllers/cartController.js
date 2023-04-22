@@ -7,7 +7,7 @@ class CartController {
     return res.json(goods);
   }
   async getAllCartItems(req, res) {
-    const goods = await Cart.findAll();
+    const goods = await GoodsCart.findAll();
     return res.json(goods);
   }
 }
