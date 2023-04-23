@@ -17,7 +17,7 @@ class ProductController {
         price,
         brandId,
         categoryId,
-        img: fileName,
+        image: fileName,
       });
 
       if (info) {
