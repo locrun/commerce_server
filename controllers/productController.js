@@ -30,13 +30,13 @@ class ProductController {
           });
         });
       }
-      return res.json(goods);
+      return res.json(product);
     } catch (e) {
       next(ApiError.badRequest(e.message));
     }
   }
   async getAll(req, res) {
-    let { brandId, typeId, limit, page } = req.query;
+    let { brandId, categoryId, limit, page } = req.query;
 
     page = page || 1;
     limit = limit || 6;
@@ -44,28 +44,28 @@ class ProductController {
     let offset = page * limit - limit;
     let product;
 
-    if (!brandId && !typeId) {
+    if (!brandId && !categoryId) {
       // Метод  findAndCountAll предназначен для пагинации , нужен для того что бы посчитать  колличество страниц на фронте
       // которое вернется нам по заданному запросу.
       product = await Goods.findAndCountAll({ limit, offset });
     }
-    if (brandId && !typeId) {
+    if (brandId && !categoryId) {
       product = await Product.findAndCountAll({
         where: { brandId },
         limit,
         offset,
       });
     }
-    if (!brandId && typeId) {
+    if (!brandId && categoryId) {
       product = await Product.findAndCountAll({
-        where: { typeId },
+        where: { categoryId },
         limit,
         offset,
       });
     }
-    if (brandId && typeId) {
+    if (brandId && categoryId) {
       product = await Product.findAndCountAll({
-        where: { brandId, typeId },
+        where: { brandId, categoryId },
         limit,
         offset,
       });
