@@ -6,7 +6,7 @@ import ApiError from "../error/ApiError.js";
 class ProductController {
   async create(req, res, next) {
     try {
-      let { name, price, brandId, typeId, info } = req.body;
+      let { name, price, brandId, categoryId, info } = req.body;
 
       const { img } = req.files;
       const fileName = uuid.v4() + ".jpg";
@@ -16,7 +16,7 @@ class ProductController {
         name,
         price,
         brandId,
-        typeId,
+        categoryId,
         img: fileName,
       });
 
