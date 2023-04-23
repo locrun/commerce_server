@@ -1,9 +1,9 @@
 import path from "path";
 import * as uuid from "uuid";
-import { Goods, GoodsInfo } from "../models/model.js";
+import { Product, ProductInfo } from "../models/model.js";
 import ApiError from "../error/ApiError.js";
 
-class GoodsController {
+class ProductController {
   async create(req, res, next) {
     try {
       let { name, price, brandId, typeId, info } = req.body;
@@ -12,7 +12,7 @@ class GoodsController {
       const fileName = uuid.v4() + ".jpg";
       img.mv(path.resolve("static", fileName));
 
-      const goods = await Goods.create({
+      const product = await Product.create({
         name,
         price,
         brandId,
@@ -23,10 +23,10 @@ class GoodsController {
       if (info) {
         info = JSON.parse(info);
         info.forEach((i) => {
-          GoodsInfo.create({
+          ProductInfo.create({
             title: i.title,
             description: i.description,
-            goodId: goods.id,
+            productId: product.id,
           });
         });
       }
@@ -37,50 +37,50 @@ class GoodsController {
   }
   async getAll(req, res) {
     let { brandId, typeId, limit, page } = req.query;
-    
+
     page = page || 1;
     limit = limit || 6;
 
     let offset = page * limit - limit;
-    let goods;
+    let product;
 
     if (!brandId && !typeId) {
       // Метод  findAndCountAll предназначен для пагинации , нужен для того что бы посчитать  колличество страниц на фронте
       // которое вернется нам по заданному запросу.
-      goods = await Goods.findAndCountAll({ limit, offset });
+      product = await Goods.findAndCountAll({ limit, offset });
     }
     if (brandId && !typeId) {
-      goods = await Goods.findAndCountAll({
+      product = await Product.findAndCountAll({
         where: { brandId },
         limit,
         offset,
       });
     }
     if (!brandId && typeId) {
-      goods = await Goods.findAndCountAll({
+      product = await Product.findAndCountAll({
         where: { typeId },
         limit,
         offset,
       });
     }
     if (brandId && typeId) {
-      goods = await Goods.findAndCountAll({
+      product = await Product.findAndCountAll({
         where: { brandId, typeId },
         limit,
         offset,
       });
     }
-    return res.json(goods);
+    return res.json(product);
   }
   async getOne(req, res) {
     const { id } = req.params;
 
-    const goods = await Goods.findOne({
+    const product = await Product.findOne({
       where: { id },
-      include: [{ model: GoodsInfo, as: "info" }],
+      include: [{ model: ProductInfo, as: "info" }],
     });
-    return res.json(goods);
+    return res.json(product);
   }
 }
 
-export default new GoodsController();
+export default new ProductController();

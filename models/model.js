@@ -19,21 +19,8 @@ export const User = sequelize.define("user", {
     defaultValue: "ADMIN",
   },
 });
-export const Cart = sequelize.define("cart", {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
-  },
-});
-export const GoodsCart = sequelize.define("goods_cart", {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
-  },
-});
-export const Goods = sequelize.define("goods", {
+
+export const Product = sequelize.define("product", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -52,12 +39,22 @@ export const Goods = sequelize.define("goods", {
     type: DataTypes.INTEGER,
     defaultValue: 0,
   },
-  img: {
+  image: {
     type: DataTypes.STRING,
     allowNull: false,
   },
 });
-export const Type = sequelize.define("type", {
+export const Basket = sequelize.define("basket", {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+});
+export const BasketProduct = sequelize.define("basket_product", {
+  quantity: { type: DataTypes.INTEGER, defaultValue: 1 },
+});
+export const Category = sequelize.define("category", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -92,7 +89,7 @@ export const Rating = sequelize.define("rating", {
     allowNull: false,
   },
 });
-export const GoodsInfo = sequelize.define("goods_info", {
+export const ProductInfo = sequelize.define("product_info", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -108,7 +105,7 @@ export const GoodsInfo = sequelize.define("goods_info", {
   },
 });
 
-export const TypeBrand = sequelize.define("type_brand", {
+export const CategoryBrand = sequelize.define("category_brand", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -116,29 +113,35 @@ export const TypeBrand = sequelize.define("type_brand", {
   },
 });
 
-User.hasOne(Cart);
-Cart.belongsTo(User);
+User.hasOne(Basket);
+Basket.belongsTo(User);
 
 User.hasMany(Rating);
 Rating.belongsTo(User);
+Product.hasMany(Rating);
+Rating.belongsTo(Product);
 
-Cart.hasMany(GoodsCart);
-GoodsCart.belongsTo(Cart);
+Basket.hasMany(BasketProduct);
+BasketProduct.belongsTo(Basket);
 
-Type.hasMany(Goods);
-Goods.belongsTo(Type);
+Product.hasMany(BasketProduct);
+BasketProduct.belongsTo(Product);
 
-Brand.hasMany(Goods);
-Goods.belongsTo(Brand);
+Category.hasMany(Product, { onDelete: "RESTRICT" });
+Product.belongsTo(Category);
+Brand.hasMany(Product, { onDelete: "RESTRICT" });
+Product.belongsTo(Brand);
 
-Goods.hasMany(Rating);
-Rating.belongsTo(Goods);
+Product.hasMany(ProductInfo, { as: "info" });
+ProductInfo.belongsTo(Product);
 
-Goods.hasMany(GoodsCart);
-GoodsCart.belongsTo(Goods);
+// связь many-to-many товаров и корзин через промежуточную таблицу;
+// товар может быть в нескольких корзинах, в корзине может быть несколько товаров
+Basket.belongsToMany(Product, { through: BasketProduct, onDelete: "CASCADE" });
+Product.belongsToMany(Basket, { through: BasketProduct, onDelete: "CASCADE" });
 
-Goods.hasMany(GoodsInfo, { as: "info" });
-GoodsInfo.belongsTo(Goods);
+Category.belongsToMany(Brand, { through: CategoryBrand });
+Brand.belongsToMany(Category, { through: CategoryBrand });
 
-Type.belongsToMany(Brand, { through: TypeBrand });
-Brand.belongsToMany(Type, { through: TypeBrand });
+Product.belongsToMany(User, { through: Rating, onDelete: "CASCADE" });
+User.belongsToMany(Product, { through: Rating, onDelete: "CASCADE" });

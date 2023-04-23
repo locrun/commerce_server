@@ -1,15 +1,15 @@
-import { Type } from "../models/model.js";
+import { Category } from "../models/model.js";
 
-class TypeController {
+class CategoryController {
   async create(req, res) {
     const { name } = req.body;
-    const type = await Type.create({ name });
+    const type = await Category.create({ name });
     return res.json(type);
   }
   async getAll(req, res) {
-    const types = await Type.findAll();
+    const types = await Category.findAll();
     return res.json(types);
   }
 }
 /* eslint import/no-anonymous-default-export: [2, {"allowNew": true}] */
-export default new TypeController();
+export default new CategoryController();
