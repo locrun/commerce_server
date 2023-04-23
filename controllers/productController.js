@@ -47,7 +47,7 @@ class ProductController {
     if (!brandId && !categoryId) {
       // Метод  findAndCountAll предназначен для пагинации , нужен для того что бы посчитать  колличество страниц на фронте
       // которое вернется нам по заданному запросу.
-      product = await Goods.findAndCountAll({ limit, offset });
+      product = await Product.findAndCountAll({ limit, offset });
     }
     if (brandId && !categoryId) {
       product = await Product.findAndCountAll({
