@@ -3,12 +3,12 @@ import { Category } from "../models/model.js";
 class CategoryController {
   async create(req, res) {
     const { name } = req.body;
-    const type = await Category.create({ name });
-    return res.json(type);
+    const category = await Category.create({ name });
+    return res.json(category);
   }
   async getAll(req, res) {
-    const types = await Category.findAll();
-    return res.json(types);
+    const categories = await Category.findAll();
+    return res.json(categories);
   }
 }
 /* eslint import/no-anonymous-default-export: [2, {"allowNew": true}] */
