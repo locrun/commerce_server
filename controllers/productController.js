@@ -8,9 +8,9 @@ class ProductController {
     try {
       let { name, price, brandId, categoryId, info } = req.body;
 
-      const { img } = req.files;
+      const { image } = req.files;
       const fileName = uuid.v4() + ".jpg";
-      img.mv(path.resolve("static", fileName));
+      image.mv(path.resolve("static", fileName));
 
       const product = await Product.create({
         name,
