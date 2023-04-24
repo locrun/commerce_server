@@ -6,7 +6,7 @@ import basketRouter from "./basketRouter.js";
 import checkRoleMiddleware from "../middleware/checkRoleMiddleware.js";
 const router = new Router();
 
-router.use("/product", productRouter);
+router.use("/product", checkRoleMiddleware("ADMIN"), productRouter);
 router.use("/category", categoryRouter);
 router.use("/basket", basketRouter);
 router.use("/user", userRouter);
