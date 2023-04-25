@@ -6,7 +6,7 @@ import ApiError from "../error/ApiError.js";
 class ProductController {
   async create(req, res, next) {
     try {
-      let { name, price, brandId, categoryId, info } = req.body;
+      let { name, price, brandId, typeId, info } = req.body;
 
       const { img } = req.files;
       const fileName = uuid.v4() + ".jpg";
@@ -16,7 +16,7 @@ class ProductController {
         name,
         price,
         brandId,
-        categoryId,
+        typeId,
         img: fileName,
       });
 
@@ -36,7 +36,7 @@ class ProductController {
     }
   }
   async getAll(req, res) {
-    let { brandId, categoryId, limit, page } = req.query;
+    let { brandId, typeId, limit, page } = req.query;
 
     page = page || 1;
     limit = limit || 6;
@@ -44,28 +44,28 @@ class ProductController {
     let offset = page * limit - limit;
     let product;
 
-    if (!brandId && !categoryId) {
+    if (!brandId && !typeId) {
       // Метод  findAndCountAll предназначен для пагинации , нужен для того что бы посчитать  колличество страниц на фронте
       // которое вернется нам по заданному запросу.
       product = await Product.findAndCountAll({ limit, offset });
     }
-    if (brandId && !categoryId) {
+    if (brandId && !typeId) {
       product = await Product.findAndCountAll({
         where: { brandId },
         limit,
         offset,
       });
     }
-    if (!brandId && categoryId) {
+    if (!brandId && typeId) {
       product = await Product.findAndCountAll({
-        where: { categoryId },
+        where: { typeId },
         limit,
         offset,
       });
     }
-    if (brandId && categoryId) {
+    if (brandId && typeId) {
       product = await Product.findAndCountAll({
-        where: { brandId, categoryId },
+        where: { brandId, typeId },
         limit,
         offset,
       });

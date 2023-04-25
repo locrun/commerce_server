@@ -54,7 +54,8 @@ export const Basket = sequelize.define("basket", {
 export const BasketProduct = sequelize.define("basket_product", {
   quantity: { type: DataTypes.INTEGER, defaultValue: 1 },
 });
-export const Category = sequelize.define("category", {
+
+export const Type = sequelize.define("Type", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -66,6 +67,7 @@ export const Category = sequelize.define("category", {
     allowNull: false,
   },
 });
+
 export const Brand = sequelize.define("brand", {
   id: {
     type: DataTypes.INTEGER,
@@ -105,7 +107,7 @@ export const ProductInfo = sequelize.define("product_info", {
   },
 });
 
-export const CategoryBrand = sequelize.define("category_brand", {
+export const TypeBrand = sequelize.define("type_brand", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -127,8 +129,9 @@ BasketProduct.belongsTo(Basket);
 Product.hasMany(BasketProduct);
 BasketProduct.belongsTo(Product);
 
-Category.hasMany(Product, { onDelete: "RESTRICT" });
-Product.belongsTo(Category);
+Type.hasMany(Product, { onDelete: "RESTRICT" });
+Product.belongsTo(Type);
+
 Brand.hasMany(Product, { onDelete: "RESTRICT" });
 Product.belongsTo(Brand);
 
@@ -140,8 +143,8 @@ ProductInfo.belongsTo(Product);
 Basket.belongsToMany(Product, { through: BasketProduct, onDelete: "CASCADE" });
 Product.belongsToMany(Basket, { through: BasketProduct, onDelete: "CASCADE" });
 
-Category.belongsToMany(Brand, { through: CategoryBrand });
-Brand.belongsToMany(Category, { through: CategoryBrand });
+Type.belongsToMany(Brand, { through: TypeBrand });
+Brand.belongsToMany(Type, { through: TypeBrand });
 
 Product.belongsToMany(User, { through: Rating, onDelete: "CASCADE" });
 User.belongsToMany(Product, { through: Rating, onDelete: "CASCADE" });
