@@ -1,6 +1,7 @@
 import path from "path";
 import * as uuid from "uuid";
-import { Product, ProductInfo } from "../models/model.js";
+import { ProductInfo } from "../models/model.js";
+import { Product } from "../models/model.js";
 import ApiError from "../error/ApiError.js";
 
 class ProductController {
@@ -8,16 +9,17 @@ class ProductController {
     try {
       let { name, price, brandId, typeId, info } = req.body;
 
-      const { img } = req.files;
+      const { image } = req.files;
+
       const fileName = uuid.v4() + ".jpg";
-      img.mv(path.resolve("static", fileName));
+      image.mv(path.resolve("static", fileName));
 
       const product = await Product.create({
         name,
         price,
         brandId,
         typeId,
-        img: fileName,
+        image: fileName,
       });
 
       if (info) {
@@ -82,5 +84,5 @@ class ProductController {
     return res.json(product);
   }
 }
-
+/* eslint import/no-anonymous-default-export: [2, {"allowNew": true}] */
 export default new ProductController();
