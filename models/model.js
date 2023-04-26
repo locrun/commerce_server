@@ -55,7 +55,7 @@ export const BasketProduct = sequelize.define("basket_product", {
   quantity: { type: DataTypes.INTEGER, defaultValue: 1 },
 });
 
-export const Type = sequelize.define("Type", {
+export const Type = sequelize.define("type", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,

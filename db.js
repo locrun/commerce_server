@@ -11,8 +11,12 @@ export const sequelize = new Sequelize(
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     define: {
-      underscored: true, // использовать snake_case вместо camelCase для полей таблиц БД
       timestamps: false, // не добавлять поля created_at и updated_at при создании таблиц
     },
   }
 );
+
+// define: {
+//   underscored: true, // использовать snake_case вместо camelCase для полей таблиц БД
+//   timestamps: false, // не добавлять поля created_at и updated_at при создании таблиц
+// },
