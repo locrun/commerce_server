@@ -16,7 +16,11 @@ const PORT = process.env.PORT || 5000;
 const app = express();
 
 // Что бы обойти cors
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://tehno-store-frontend.vercel.app/",
+  })
+);
 
 // Формат json для Express
 app.use(express.json());
