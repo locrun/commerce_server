@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import { sequelize } from "./db.js";
 import fileUpload from "express-fileupload";
+import cookieParser from "cookie-parser";
 //import Models from "../server/models/model.js";
 
 import path from "path";
@@ -15,8 +16,15 @@ const PORT = process.env.PORT || 5000;
 
 const app = express();
 
+//Для работы с корзиной
+app.use(cookieParser(process.env.SECRET_KEY));
+
 // Что бы обойти cors
-app.use(cors());
+//app.use(cors());
+// Cross-Origin Resource Sharing
+app.use(
+  cors({ origin: "https://tehno-store-frontend.vercel.app", credentials: true })
+);
 
 // Формат json для Express
 app.use(express.json());
