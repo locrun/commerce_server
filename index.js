@@ -22,13 +22,21 @@ const app = express();
 // Что бы обойти cors
 //app.use(cors());
 // Cross-Origin Resource Sharing
-app.use(
-  cors({
-    origin: false,
-    credentials: true,
-    methods: ["GET", "PUT", "POST", "DELETE"],
-  })
-);
+// app.use(
+//   cors({
+//     origin: "https://tehno-store.vercel.app",
+//     credentials: true,
+//     methods: ["GET", "PUT", "POST", "DELETE"],
+//   })
+// );
+
+app.use(function (req, res, next) {
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    "https://tehno-store.vercel.app"
+  );
+  next();
+});
 
 // Формат json для Express
 app.use(express.json());
