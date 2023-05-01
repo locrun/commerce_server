@@ -24,7 +24,7 @@ const app = express();
 // Cross-Origin Resource Sharing
 app.use(
   cors({
-    origin: "https://tehno-store.vercel.app",
+    origin: "http://tehno-store.vercel.app",
     credentials: true,
     methods: ["GET", "PUT", "POST", "DELETE"],
   })
