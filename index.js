@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import { sequelize } from "./db.js";
 import fileUpload from "express-fileupload";
-import cookieParser from "cookie-parser";
+//import cookieParser from "cookie-parser";
 //import Models from "../server/models/model.js";
 
 import path from "path";
@@ -17,7 +17,7 @@ const PORT = process.env.PORT || 5000;
 const app = express();
 
 //Для работы с корзиной
-app.use(cookieParser(process.env.SECRET_KEY));
+//app.use(cookieParser(process.env.SECRET_KEY));
 
 // Что бы обойти cors
 //app.use(cors());
