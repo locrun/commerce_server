@@ -23,7 +23,11 @@ const app = express();
 //app.use(cors());
 // Cross-Origin Resource Sharing
 app.use(
-  cors({ origin: "https://tehno-store-frontend.vercel.app", credentials: true })
+  cors({
+    origin: "https://tehno-store-frontend.vercel.app",
+    credentials: true,
+    methods: ["GET", "PUT", "POST", "DELETE"],
+  })
 );
 
 // Формат json для Express
