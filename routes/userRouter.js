@@ -1,12 +1,27 @@
 import { Router } from "express";
-import userController from "../controllers/userController.js";
+import UserController from "../controllers/userController.js";
 
 import authMiddleware from "../middleware/authMiddleware.js";
 
 const router = new Router();
 
-router.post("/registration", userController.registration);
-router.post("/login", userController.login);
-router.get("/check", authMiddleware, userController.check);
+router.post("/registration", UserController.registration, () => {
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    "https://tehno-store.vercel.app"
+  );
+});
+router.post("/login", UserController.login, () => {
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    "https://tehno-store.vercel.app"
+  );
+});
+router.get("/check", authMiddleware, UserController.check, () => {
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    "https://tehno-store.vercel.app"
+  );
+});
 
 export default router;
