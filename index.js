@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import { sequelize } from "./db.js";
 import fileUpload from "express-fileupload";
-//import cookieParser from "cookie-parser";
+import cookieParser from "cookie-parser";
 //import Models from "../server/models/model.js";
 
 import path from "path";
@@ -17,27 +17,11 @@ const PORT = process.env.PORT || 5000;
 const app = express();
 
 //Для работы с корзиной
-//app.use(cookieParser(process.env.SECRET_KEY));
+app.use(cookieParser(process.env.SECRET_KEY));
 
 // Что бы обойти cors
 //app.use(cors());
-// Cross-Origin Resource Sharing
-// app.use(
-//   cors({
-//     origin: "https://tehno-store.vercel.app",
-//     credentials: true,
-//     methods: ["GET", "PUT", "POST", "DELETE"],
-//   })
-// );
-
-app.use(function (req, res, next) {
-  res.setHeader(
-    "Access-Control-Allow-Origin",
-    "https://tehno-store.vercel.app"
-  );
-  next();
-});
-
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 // Формат json для Express
 app.use(express.json());
 
@@ -52,6 +36,8 @@ app.use("/api", router);
 
 //Обработка ошибок , последний Middleware
 app.use(ErrorHandler);
+
+app.set("trust proxy", 1);
 
 const start = async () => {
   try {

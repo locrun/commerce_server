@@ -1,11 +1,11 @@
 import { Router } from "express";
-import productController from "../controllers/productController.js";
+import ProductController from "../controllers/productController.js";
 import checkRoleMiddleware from "../middleware/checkRoleMiddleware.js";
 
 const router = new Router();
 
-router.post("/", checkRoleMiddleware("ADMIN"), productController.create);
-router.get("/", productController.getAll);
-router.get("/:id", productController.getOne);
+router.post("/", checkRoleMiddleware("ADMIN"), ProductController.create);
+router.get("/", ProductController.getAll);
+router.get("/:id", ProductController.getOne);
 
 export default router;
