@@ -1,4 +1,4 @@
-import { DataTypes } from "sequelize";
+import { Model, DataTypes } from "sequelize";
 import { sequelize } from "../db.js";
 
 export const User = sequelize.define("user", {
@@ -44,6 +44,7 @@ export const Product = sequelize.define("product", {
     allowNull: false,
   },
 });
+
 export const Basket = sequelize.define("basket", {
   id: {
     type: DataTypes.INTEGER,

@@ -26,18 +26,13 @@ class BasketController {
     }
   }
 
-  // async create() {
-  //   const basket = await BasketMapping.create();
-  //   return basket;
-  // }
-
   async append(req, res, next) {
     try {
       let basket;
       let basketId = parseInt(req.signedCookies.basketId);
       if (!basketId) {
         let created = await Basket.create();
-        return (basketId = created.id);
+        basketId = created.id;
       }
 
       const { productId, quantity } = req.params;
@@ -68,6 +63,7 @@ class BasketController {
       next(ApiError.badRequest(e.message));
     }
   }
+
   async increment(req, res, next) {
     try {
       let basket;
@@ -102,11 +98,11 @@ class BasketController {
     try {
       let basket;
       const { productId, quantity } = req.params;
-
       let basketId = parseInt(req.signedCookies.basketId);
+
       if (!basketId) {
         let created = await Basket.create();
-        return (basketId = created.id);
+        basketId = created.id;
       }
       basket = await Basket.findByPk(basketId, {
         include: [{ model: Product, as: "products" }],
